@@ -1,0 +1,28 @@
+stages:
+  - building
+  - test
+
+gcc:
+  stage: building
+  before_script:
+    - mkdir build
+    - cd build
+    - conan install ../ -s build_type=Debug --profile gcc
+  script:
+    - cmake -G "Unix Makefiles"
+      -DCMAKE_C_COMPILER=gcc
+      -DCMAKE_CXX_COMPILER=g++
+      -DCMAKE_BUILD_TYPE=Release
+      -DTEST=true
+      ..
+    - cmake --build .
+  artifacts:
+    paths:
+      - build/bin/main_tests
+
+google-gcc:
+  stage: test
+  dependencies:
+    - gcc
+  script:
+    - ./build/bin/main_tests

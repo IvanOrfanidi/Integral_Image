@@ -1,0 +1,15 @@
+*.*
+!*.c
+!*.cpp
+!*.h
+!*.hpp
+!*.txt
+!*.bat
+!*.sh
+!.gitignore
+!.clang-format
+!*.md
+!*.yml
+!*.cfg
+out/*
+build/*
