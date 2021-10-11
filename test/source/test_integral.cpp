@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include <include/sum.h>
+#include <integral.h>
 
-TEST(TestSuml, sum_eq)
+TEST(TestIntegral, integral)
 {
     // arrange
     const int a = 2;

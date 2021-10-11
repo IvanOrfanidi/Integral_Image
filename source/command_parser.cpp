@@ -7,7 +7,7 @@
  * 
  * @param args - команды и параметры
  */
-void CommandParser::parse(Config& config, const std::vector<std::string>& args)
+void CommandParser::parse(const std::vector<std::string>& args)
 {
     unsigned numberOfThreads;
     std::vector<std::string> pathToImage;
@@ -37,18 +37,29 @@ void CommandParser::parse(Config& config, const std::vector<std::string>& args)
 
     checkingNumberOfThreads(numberOfThreads);
     checkingVectorPathToImage(pathToImage);
-    config.setConfig(numberOfThreads, pathToImage);
+
+    setConfig(numberOfThreads, pathToImage);
 }
 
-void CommandParser::parse(Config& config, const std::string& arg)
+void CommandParser::parse(const std::string& arg)
 {
-    return parse(config, boost::program_options::split_unix(arg));
+    return parse(boost::program_options::split_unix(arg));
 }
 
-void CommandParser::parse(Config& config, int argc, char* argv[])
+void CommandParser::parse(int argc, char* argv[])
 {
     const std::vector<std::string> vArg(argv + 1, argv + argc);
-    return parse(config, vArg);
+    return parse(vArg);
+}
+
+/**
+ * @brief Получить конфигурацию
+ * 
+ * @return Config - конфигурация
+ */
+Config CommandParser::getConfig() const noexcept
+{
+    return _config;
 }
 
 /**
@@ -66,14 +77,12 @@ std::string CommandParser::getOutputMessage() const noexcept
  * 
  * @param numberOfThreads кол-во потоков
  */
-void CommandParser::checkingNumberOfThreads(unsigned& numberOfThreads) const
+void CommandParser::checkingNumberOfThreads(unsigned numberOfThreads) const
 {
-    const auto maxNumberOfThreads = std::thread::hardware_concurrency();
+    const auto maxNumberOfThreads = std::thread::hardware_concurrency() - 1;
     if (numberOfThreads > maxNumberOfThreads) {
         throw std::runtime_error("invalid option '--threads', maximum value is " + std::to_string(maxNumberOfThreads));
     }
-
-    numberOfThreads = (numberOfThreads == 0) ? maxNumberOfThreads : numberOfThreads;
 }
 
 /**
@@ -85,5 +94,13 @@ void CommandParser::checkingVectorPathToImage(const std::vector<std::string>& pa
 {
     if (pathToImage.empty()) {
         throw std::runtime_error("no image files");
+    }
+}
+
+void CommandParser::setConfig(unsigned numberOfThreads, const std::vector<std::string>& pathToImage)
+{
+    _config.numberOfThreads = (numberOfThreads == 0) ? (std::thread::hardware_concurrency() - 1) : numberOfThreads;
+    for (const auto& pathToImageItem : pathToImage) {
+        _config.pathToImage.insert(pathToImageItem);
     }
 }

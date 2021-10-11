@@ -3,39 +3,34 @@
 #include <boost/circular_buffer.hpp>
 #include <boost/program_options.hpp>
 
-#include <opencv2/dnn.hpp>
-#include <opencv2/opencv.hpp>
-
 #include <command_parser.h>
 #include <message.h>
+#include <multithreaded_integral.h>
 
 int main(/*int argc, char* argv[]*/)
 {
-    Config& config = Config::instance();
     CommandParser commandParser;
     try {
-        commandParser.parse(config, "-t 8 -i img/RED.BMP");
+        commandParser.parse("-t 2 -i img/RED.jpg -i img/24.bmp");
 
         const std::string msg = commandParser.getOutputMessage();
         if (!msg.empty()) {
-            // Вывод информации(версии, хелпа)
+            // Вывод версии или хелпа
             MSG(msg);
             return EXIT_SUCCESS;
         }
+
+        // cv::Mat m = (cv::Mat_<uint8_t>(3, 2) << 0, 1, 2, 3, 4, 5);
+        // DEB_MSG(m);
+        // cv::Mat integ = integral(m);
+        // DEB_MSG(integ);
+
+        Config config = commandParser.getConfig();
         DEB_MSG(config);
 
-        std::vector<std::string> pathToImage;
-        config.getPathToImage(pathToImage);
-        for (auto& image : pathToImage) {
-            cv::Mat src = cv::imread(image);
-            if (src.empty()) {
-                ERR_MSG("couldn't open OSD file: " + image);
-            }
+        MultithreadedIntegral multithreadedIntegral(std::move(config));
 
-            cv::imshow(image, src);
-            while (cv::waitKey(100) != 27) {
-            }
-        }
+        multithreadedIntegral.execute();
 
     } catch (const std::exception& exception) {
         ERR_MSG("error: " << exception.what());

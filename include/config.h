@@ -1,40 +1,32 @@
 #pragma once
 
-#include <functional>
-#include <mutex>
+#include <set>
 #include <string>
-#include <vector>
 
-class Config {
-public:
-    static Config& instance();
-
-    Config(const Config&) = delete;
-    Config& operator=(Config&) = delete;
-
-    template <class StreamType>
-    friend StreamType& operator<<(StreamType& stream, const Config& config)
-    {
-        stream << "Number of threads: " << config._numberOfThreads << '\n';
-        stream << "Images:\n";
-        for (const auto& pathToImageItem : config._pathToImage) {
-            stream << "  <" << pathToImageItem << ">\n";
-        }
-        return stream;
-    }
-
-    void setConfig(unsigned numberOfThreads, std::vector<std::string>& pathToImage);
-
-    void setNumberOfThreads(unsigned numberOfThreads);
-
-    unsigned getNumberOfThreads() const;
-
-    void getPathToImage(std::vector<std::string>& pathToImage) const;
-
-private:
-    Config() = default;
-
-    unsigned _numberOfThreads;
-    std::vector<std::string> _pathToImage;
-    mutable std::mutex _mtx;
+/**
+ * @brief Класс конфигурации
+ * 
+ */
+struct Config {
+    unsigned numberOfThreads; ///< Кол-во потоков
+    std::set<std::string> pathToImage; ///< Перечисление файлов изображений
 };
+
+/**
+ * @brief Вывод в поток конфигурации
+ * 
+ * @tparam StreamType - тип потока
+ * @param stream - поток
+ * @param config - класс конфигурации
+ * @return StreamType& - вывод
+ */
+template <class StreamType>
+StreamType& operator<<(StreamType& stream, const Config& config)
+{
+    stream << "Number of threads: " << config.numberOfThreads << '\n';
+    stream << "Images:\n";
+    for (const auto& pathToImageItem : config.pathToImage) {
+        stream << "  <" << pathToImageItem << ">\n";
+    }
+    return stream;
+}
