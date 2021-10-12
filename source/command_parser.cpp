@@ -97,6 +97,12 @@ void CommandParser::checkingVectorPathToImage(const std::vector<std::string>& pa
     }
 }
 
+/**
+ * @brief Установка конфигурации
+ * 
+ * @param numberOfThreads - кол-во потоков
+ * @param pathToImage - контейнер с путями к файлам
+ */
 void CommandParser::setConfig(unsigned numberOfThreads, const std::vector<std::string>& pathToImage)
 {
     _config.numberOfThreads = (numberOfThreads == 0) ? (std::thread::hardware_concurrency() - 1) : numberOfThreads;
