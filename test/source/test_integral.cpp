@@ -1,28 +1,36 @@
 #include <gtest/gtest.h>
 #include <integral.h>
+#include <utils.h>
 
-TEST(TestIntegral, integral)
+/**
+ * @brief Структура тестовых данных
+ * 
+ */
+struct TestItem {
+    cv::Mat testMatrix; ///< Тестовая матрица
+    cv::Mat expectedMatrix; ///< Ожидаемая матрица
+};
+
+/**
+ * @brief Тест функции получения интегральной матрицы
+ * 
+ */
+TEST(TestIntegral, Integral)
 {
-    // arrange
-    const int a = 2;
-    const int b = 3;
+    // Arrange
+    const std::vector<TestItem> testData = {
+        {
+            (cv::Mat_<uint8_t>(3, 2) << 0, 1, 2, 3, 4, 5), ///< Test 3x2
+            (cv::Mat_<float>(3, 2) << 0, 1, 2, 6, 6, 15), ///< Expectation 3x2
+        }
+    };
+    cv::Mat resMatrix;
 
-    // act
-    const auto res = sum(a, b);
+    for (const auto& testItem : testData) {
+        // Act
+        calculateIntegralMatrix(resMatrix, testItem.testMatrix);
 
-    // assert
-    EXPECT_EQ(res, 5);
-}
-
-TEST(TestSuml, sum_ne)
-{
-    // arrange
-    const int a = 1;
-    const int b = 2;
-
-    // act
-    const auto res = sum(a, b);
-
-    // assert
-    EXPECT_NE(res, 4);
+        // Assert
+        EXPECT_TRUE(utils::isMatMatches(resMatrix, testItem.expectedMatrix));
+    }
 }

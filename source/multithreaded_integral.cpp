@@ -133,7 +133,9 @@ void MultithreadedIntegral::calculateIntegralImage(std::vector<Image>& integralM
             cv::Mat empty;
             integralMatrices.push_back({ partOfImage.name, partOfImage.channel, empty });
         } else {
-            integralMatrices.push_back({ partOfImage.name, partOfImage.channel, integral(partOfImage.matrix) });
+            cv::Mat integralMatrix;
+            calculateIntegralMatrix(integralMatrix, partOfImage.matrix);
+            integralMatrices.push_back({ partOfImage.name, partOfImage.channel, integralMatrix });
         }
     }
 }

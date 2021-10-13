@@ -4,8 +4,14 @@ cmake_minimum_required(VERSION 3.16)
 # Project name
 project(integral_image)
 
-# Include lib conan test
+set(TEST ON)
 if(TEST)
+    set(MAT_MATCHES_TEST ON)
+    set(MAT_INTEGRAL_TEST ON)
+endif()
+
+# Include lib conan test
+if(MAT_MATCHES_TEST OR MAT_INTEGRAL_TEST)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     conan_basic_setup()
 endif()
@@ -36,8 +42,14 @@ file(GLOB_RECURSE SOURCES
 )
 
 # Source tests files
-file(GLOB_RECURSE TEST_SOURCES
-    test/*.cpp
+file(GLOB_RECURSE MAT_MATCHES_TEST_SOURCES
+    test/test_mat_matches.cpp
+    source/utils.cpp
+)
+file(GLOB_RECURSE MAT_INTEGRAL_TEST_SOURCES
+    test/test_integral.cpp
+    source/utils.cpp
+    source/integral.cpp
 )
 
 # Boost components
@@ -63,12 +75,18 @@ target_link_libraries(${PROJECT_NAME}
     ${CMAKE_THREAD_LIBS_INIT}
 )
 
-if(TEST)
-    add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
+if(MAT_MATCHES_TEST)
+    add_executable(mat_matches_test ${MAT_MATCHES_TEST_SOURCES})
 
-    target_link_libraries(${PROJECT_NAME}_tests
+    target_link_libraries(mat_matches_test
     ${OpenCV_LIBS}
-    ${Boost_LIBRARIES}
-    ${CMAKE_THREAD_LIBS_INIT}
+    ${CONAN_LIBS})
+endif()
+
+if(MAT_INTEGRAL_TEST)
+    add_executable(mat_integral_test ${MAT_INTEGRAL_TEST_SOURCES})
+
+    target_link_libraries(mat_integral_test
+    ${OpenCV_LIBS}
     ${CONAN_LIBS})
 endif()

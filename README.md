@@ -1,4 +1,4 @@
-## Сборка примеров Google Test с установкой из менеджера пакетов Conan.
+## Сборка тестов с Google Test.
 
 ### Установка менеджера pip и менеджера пакетов Conan.
 `sudo apt install pip`
@@ -7,7 +7,7 @@
 
 + Выполнить команду в папке со сборкой(build, out):
   + Для первого вызова:
-`conan install ../ -s build_type=Debug --build=gtest`. В случае ошибки необходимо подправить профиль для conan `.conan/profiles/default`:
+`conan install ../ -s build_type=Debug`. В случае ошибки необходимо подправить профиль для conan `.conan/profiles/default`:
 ```sh
 [settings]
 os=Linux
