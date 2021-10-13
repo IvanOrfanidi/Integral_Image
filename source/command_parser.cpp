@@ -10,12 +10,12 @@
 void CommandParser::parse(const std::vector<std::string>& args)
 {
     unsigned numberOfThreads;
-    std::vector<std::string> pathToImage;
+    std::vector<std::string> pathsToImages;
     boost::program_options::options_description desc("options");
     desc.add_options()
         // Команды:
         ("threads,t", boost::program_options::value<unsigned>(&numberOfThreads)->default_value(0), "number of threads.\n") // Кол-во потоков
-        ("image,i", boost::program_options::value<std::vector<std::string>>(&pathToImage), "path to image.\n") // Путь к файлу
+        ("image,i", boost::program_options::value<std::vector<std::string>>(&pathsToImages), "path to image.\n") // Путь к файлу
         ("version,v", "print version number and exit.\n") // Версия
         ("help,h", "produce help message.\n");
     boost::program_options::variables_map options;
@@ -36,9 +36,9 @@ void CommandParser::parse(const std::vector<std::string>& args)
     }
 
     checkingNumberOfThreads(numberOfThreads);
-    checkingVectorPathToImage(pathToImage);
+    checkingVectorPathToImage(pathsToImages);
 
-    setConfig(numberOfThreads, pathToImage);
+    setConfig(numberOfThreads, pathsToImages);
 }
 
 void CommandParser::parse(const std::string& arg)
@@ -88,11 +88,11 @@ void CommandParser::checkingNumberOfThreads(unsigned numberOfThreads) const
 /**
  * @brief Проверка вектора файлов
  * 
- * @param pathToImage входной вектор файлов
+ * @param pathsToImages входной вектор файлов
  */
-void CommandParser::checkingVectorPathToImage(const std::vector<std::string>& pathToImage) const
+void CommandParser::checkingVectorPathToImage(const std::vector<std::string>& pathsToImages) const
 {
-    if (pathToImage.empty()) {
+    if (pathsToImages.empty()) {
         throw std::runtime_error("no image files");
     }
 }
@@ -101,12 +101,12 @@ void CommandParser::checkingVectorPathToImage(const std::vector<std::string>& pa
  * @brief Установка конфигурации
  * 
  * @param numberOfThreads - кол-во потоков
- * @param pathToImage - контейнер с путями к файлам
+ * @param pathsToImages - контейнер с путями к файлам
  */
-void CommandParser::setConfig(unsigned numberOfThreads, const std::vector<std::string>& pathToImage)
+void CommandParser::setConfig(unsigned numberOfThreads, const std::vector<std::string>& pathsToImages)
 {
     _config.numberOfThreads = (numberOfThreads == 0) ? (std::thread::hardware_concurrency() - 1) : numberOfThreads;
-    for (const auto& pathToImageItem : pathToImage) {
-        _config.pathToImage.insert(pathToImageItem);
+    for (const auto& pathToImageItem : pathsToImages) {
+        _config.pathsToImages.insert(pathToImageItem);
     }
 }

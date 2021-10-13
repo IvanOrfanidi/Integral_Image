@@ -9,7 +9,7 @@
  */
 struct Config {
     unsigned numberOfThreads; ///< Кол-во потоков
-    std::set<std::string> pathToImage; ///< Перечисление файлов изображений
+    std::set<std::string> pathsToImages; ///< Перечисление файлов
 };
 
 /**
@@ -25,8 +25,8 @@ StreamType& operator<<(StreamType& stream, const Config& config)
 {
     stream << "Number of threads: " << config.numberOfThreads << '\n';
     stream << "Images:\n";
-    for (const auto& pathToImageItem : config.pathToImage) {
-        stream << "  <" << pathToImageItem << ">\n";
+    for (const auto& pathToImage : config.pathsToImages) {
+        stream << "  <" << pathToImage << ">\n";
     }
     return stream;
 }

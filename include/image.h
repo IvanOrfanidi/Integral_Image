@@ -3,6 +3,9 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 
+using ThreeMatrixArray = std::array<cv::Mat, 3>;
+using MapImages = std::map<std::string, ThreeMatrixArray>;
+
 struct Image {
     std::string name;
     unsigned channel;

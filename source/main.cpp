@@ -4,6 +4,7 @@
 #include <boost/program_options.hpp>
 
 #include <command_parser.h>
+#include <file_handler.h>
 #include <message.h>
 #include <multithreaded_integral.h>
 
@@ -23,9 +24,16 @@ int main(/*int argc, char* argv[]*/)
         Config config = commandParser.getConfig();
         DEB_MSG(config);
 
-        MultithreadedIntegral multithreadedIntegral(std::move(config));
+        std::vector<Image> partsOfImages; ///< Массив структуры одноканальных матриц с номером канала и именем файла
+        std::vector<Image> partsOfIntegralImages; ///< Массив структуры одноканальных интегральных матриц с номером канала и именем файла
 
-        multithreadedIntegral.execute();
+        FileHandler fileHandler(config.pathsToImages);
+        fileHandler.read(partsOfImages);
+
+        MultithreadedIntegral multithreadedIntegral(config.numberOfThreads);
+        multithreadedIntegral.calculate(partsOfIntegralImages, partsOfImages);
+
+        fileHandler.write(partsOfIntegralImages);
 
     } catch (const std::exception& exception) {
         ERR_MSG("error: " << exception.what());

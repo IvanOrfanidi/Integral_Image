@@ -12,4 +12,13 @@ namespace utils {
  * @return false - матрицы не равны
  */
 bool isMatMatches(const cv::Mat& Mat1, const cv::Mat& Mat2);
+
+/**
+ * @brief Проверка на нулевую матрицу
+ * 
+ * @param matrix - входная матрица
+ * @return true - матрица нулевая
+ * @return false - матрица не нулевая
+ */
+bool isMatrixZeros(const cv::Mat& matrix);
 }

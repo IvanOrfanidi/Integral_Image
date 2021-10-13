@@ -6,31 +6,17 @@
 #include <image.h>
 #include <integral.h>
 
-using ThreeMatrixArray = std::array<cv::Mat, 3>;
-using MapImages = std::map<std::string, ThreeMatrixArray>;
-
 /**
  * @brief Класс вычисления интегральных изображений в многопоточке
  * 
  */
 class MultithreadedIntegral {
 public:
-    explicit MultithreadedIntegral(Config config) noexcept;
-
-    void execute();
-
-private:
-    /**
-     * @brief Заполнение мепа файлами изображений
-     * 
-     * @param images - входной map с файлами изображений
-     */
-    void fillingInImages(MapImages& threeChannelMatrices) const;
-
-    void fillingInPartsOfImages(std::vector<Image>& partsOfImages, const MapImages& threeChannelMatrices) const;
+    explicit MultithreadedIntegral(unsigned numberOfThreads) noexcept;
 
     void calculate(std::vector<Image>& partsOfIntegralImages, const std::vector<Image>& partsOfImages);
 
+private:
     /**
      * @brief Ожидание завершения всех потоков
      * 
@@ -47,15 +33,6 @@ private:
      */
     static void calculateIntegralImage(std::vector<Image>& integralMatrices, const std::vector<Image>& imagesMatrices);
 
-    /**
-     * @brief Проверка на нулевую матрицу
-     * 
-     * @param matrix - входная матрица
-     * @return true - матрица нулевая
-     * @return false - матрица не нулевая
-     */
-    static bool isMatrixZeros(const cv::Mat& matrix);
-
-    Config _config; ///< Конфигурация
+    unsigned _numberOfThreads; ///< Кол-во потоков
     std::vector<std::thread> _threads; ///< Вектор потоков
 };

@@ -44,17 +44,17 @@ private:
     /**
      * @brief Проверка вектора файлов
      * 
-     * @param pathToImage входной вектор файлов
+     * @param pathsToImages входной вектор файлов
      */
-    void checkingVectorPathToImage(const std::vector<std::string>& pathToImage) const;
+    void checkingVectorPathToImage(const std::vector<std::string>& pathsToImages) const;
 
     /**
      * @brief Установка конфигурации
      * 
      * @param numberOfThreads - кол-во потоков
-     * @param pathToImage - контейнер с путями к файлам
+     * @param pathsToImages - контейнер с путями к файлам
      */
-    void setConfig(unsigned numberOfThreads, const std::vector<std::string>& pathToImage);
+    void setConfig(unsigned numberOfThreads, const std::vector<std::string>& pathsToImages);
 
     Config _config; ///< Конфигурация
     std::string _outputMessage; ///< Выходное сообщение парсера (хелп, версия)
