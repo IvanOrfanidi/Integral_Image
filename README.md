@@ -1,13 +1,19 @@
-## Сборка тестов с Google Test.
+### Сборка.
++ Программа собирается под Widows7/10 и Linux (Ubuntu 18/20)
 
-### Установка менеджера pip и менеджера пакетов Conan.
-`sudo apt install pip`
-`pip install conan`
-`sudo reboot`
+#### Сборка через CMake.
++ Выполнить команду в папке со сборкой(build, out):
+* `cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release ..`
+* `cmake --build .`
+
+### Сборка тестов с Google Test.
+
+#### Установка менеджера пакетов Conan через pip.
+* `pip install conan`
 
 + Выполнить команду в папке со сборкой(build, out):
-  + Для первого вызова:
-`conan install ../ -s build_type=Debug`. В случае ошибки необходимо подправить профиль для conan `.conan/profiles/default`:
+* `conan install ../ -s build_type=Debug`.
+В случае ошибки необходимо подправить профиль для conan `.conan/profiles/default`:
 ```sh
 [settings]
 os=Linux
@@ -25,4 +31,11 @@ build_type=Release
 В профиле для conan нужно подправить компилятор `compiler=gcc`, его версию `compiler.version=8` и версию C++ `compiler.libcxx=libstdc++11`.
 
   + Для последующих вызовов:
-`conan install ../ -s build_type=Debug`
+* `conan install ../ -s build_type=Debug`
+
+#### Сборка тестов через CMake.
++ Выполнить команду в папке со сборкой(build, out):
+* `cmake cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DTEST=true ..`
+* `cmake --build .`
+
++ Тесты будут лежать в папке `bin`.

@@ -8,11 +8,11 @@
 #include <message.h>
 #include <multithreaded_integral.h>
 
-int main(/*int argc, char* argv[]*/)
+int main(int argc, char* argv[])
 {
     CommandParser commandParser;
     try {
-        commandParser.parse("-t 2 -i img/RED.jpg -i img/24.bmp");
+        commandParser.parse(argc, argv);
         const std::string msg = commandParser.getOutputMessage();
         if (!msg.empty()) {
             // Вывод версии или хелпа

@@ -12,11 +12,27 @@ class CommandParser {
 public:
     /**
      * @brief Парсер команд
+     * @details Перегруженная функция
      * 
-     * @param args - команды и параметры
+     * @param args - массив строк команд и параметров
      */
     void parse(const std::vector<std::string>& arg);
+
+    /**
+     * @brief Парсер команд
+     * @details Перегруженная функция, команды ввиде строки ("-t 2 -i img/RED.jpg")
+     * 
+     * @param arg - строка с командами и параметрами
+     */
     void parse(const std::string& arg);
+
+    /**
+     * @brief Парсер команд
+     * @details Перегруженная функция
+     * 
+     * @param argc - кол-во аргументов
+     * @param argv - команды и параметры
+     */
     void parse(int argc, char* argv[]);
 
     /**
