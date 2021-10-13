@@ -32,13 +32,13 @@ TYPED_TEST_P(FXMatMatches, MatMatches)
         const bool isMismatches = utils::isMatMatches(testItem.testMatrix, testItem.mismatchesMatrix);
 
         // Assert
-        EXPECT_TRUE(isMatches) << "Test Matrix:\n"
-                               << testItem.testMatrix
-                               << "\nMatches Matrix:\n"
+        EXPECT_TRUE(isMatches) << "Test Matrix:" << std::endl
+                               << testItem.testMatrix << std::endl
+                               << "Matches Matrix:" << std::endl
                                << testItem.matchesMatrix;
-        EXPECT_FALSE(isMismatches) << "Test Matrix:\n"
-                                   << testItem.testMatrix
-                                   << "\nMismatches Matrix:\n"
+        EXPECT_FALSE(isMismatches) << "Test Matrix:" << std::endl
+                                   << testItem.testMatrix << std::endl
+                                   << "Mismatches Matrix:" << std::endl
                                    << testItem.mismatchesMatrix;
     }
 }

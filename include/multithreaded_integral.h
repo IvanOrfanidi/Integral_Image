@@ -12,8 +12,19 @@
  */
 class MultithreadedIntegral {
 public:
+    /**
+     * @brief Конструктор класса MultithreadedIntegral
+     * 
+     * @param numberOfThreads - количество потоков
+     */
     explicit MultithreadedIntegral(unsigned numberOfThreads) noexcept;
 
+    /**
+     * @brief Вычисление интегральных матриц
+     * 
+     * @param partsOfIntegralImages - массив структур одноканальных интегральных матриц с номером канала и именем файла
+     * @param partsOfImages - массив структур одноканальных матриц с номером канала и именем файла
+     */
     void calculate(std::vector<Image>& partsOfIntegralImages, const std::vector<Image>& partsOfImages);
 
 private:
@@ -22,8 +33,6 @@ private:
      * 
      */
     void waitingForEndOfThreads();
-
-    void writeToFile(const std::vector<Image>& partsOfImages) const;
 
     /**
      * @brief Вычисление массива интегральных структур изображений

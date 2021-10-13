@@ -13,32 +13,35 @@ int main(/*int argc, char* argv[]*/)
     CommandParser commandParser;
     try {
         commandParser.parse("-t 2 -i img/RED.jpg -i img/24.bmp");
-
         const std::string msg = commandParser.getOutputMessage();
         if (!msg.empty()) {
             // Вывод версии или хелпа
-            MSG(msg);
+            INFO(msg);
             return EXIT_SUCCESS;
         }
 
+        std::vector<Image> partsOfImages; ///< Массив структур одноканальных матриц с номером канала и именем файла
+        std::vector<Image> partsOfIntegralImages; ///< Массив структур одноканальных интегральных матриц с номером канала и именем файла
+
+        // Получаем конфигурацию из парсера команд
         Config config = commandParser.getConfig();
-        DEB_MSG(config);
+        DEB_INFO(config);
 
-        std::vector<Image> partsOfImages; ///< Массив структуры одноканальных матриц с номером канала и именем файла
-        std::vector<Image> partsOfIntegralImages; ///< Массив структуры одноканальных интегральных матриц с номером канала и именем файла
-
-        FileHandler fileHandler(config.pathsToImages);
-        fileHandler.read(partsOfImages);
+        FileHandler fileHandler(std::move(config.pathsToImages));
+        // Читаем данные из файлов
+        fileHandler.dataRead(partsOfImages);
 
         MultithreadedIntegral multithreadedIntegral(config.numberOfThreads);
+        // Вычисляем данные(интегральные матрицы)
         multithreadedIntegral.calculate(partsOfIntegralImages, partsOfImages);
 
-        fileHandler.write(partsOfIntegralImages);
-
+        // Пишем данные(интегральные матрицы) в файлы
+        fileHandler.dataWrite(partsOfIntegralImages);
     } catch (const std::exception& exception) {
-        ERR_MSG("error: " << exception.what());
+        ERR_INFO("error: " << exception.what());
         return EXIT_FAILURE;
     }
 
+    INFO("successful result");
     return EXIT_SUCCESS;
 }

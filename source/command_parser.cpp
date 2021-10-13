@@ -1,6 +1,6 @@
 #include <command_parser.h>
+#include <project_version.h>
 #include <thread>
-#include <version.h>
 
 /**
  * @brief Парсер команд
@@ -14,10 +14,10 @@ void CommandParser::parse(const std::vector<std::string>& args)
     boost::program_options::options_description desc("options");
     desc.add_options()
         // Команды:
-        ("threads,t", boost::program_options::value<unsigned>(&numberOfThreads)->default_value(0), "number of threads.\n") // Кол-во потоков
-        ("image,i", boost::program_options::value<std::vector<std::string>>(&pathsToImages), "path to image.\n") // Путь к файлу
-        ("version,v", "print version number and exit.\n") // Версия
-        ("help,h", "produce help message.\n");
+        ("threads,t", boost::program_options::value<unsigned>(&numberOfThreads)->default_value(0), "number of threads.") // Кол-во потоков
+        ("image,i", boost::program_options::value<std::vector<std::string>>(&pathsToImages), "path to image.") // Путь к файлу
+        ("version,v", "print version number and exit.") // Версия
+        ("help,h", "produce help message.");
     boost::program_options::variables_map options;
 
     boost::program_options::store(boost::program_options::command_line_parser(args).options(desc).run(), options);
@@ -31,7 +31,7 @@ void CommandParser::parse(const std::vector<std::string>& args)
     }
     if (options.count("version")) {
 
-        _outputMessage = VERSION.data();
+        _outputMessage = "version: " + std::string(PROJECT_VERSION);
         return;
     }
 

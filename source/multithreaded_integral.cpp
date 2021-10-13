@@ -1,4 +1,3 @@
-#include <message.h>
 #include <multithreaded_integral.h>
 #include <utils.h>
 
@@ -9,13 +8,19 @@
 /**
  * @brief Конструктор класса MultithreadedIntegral
  * 
- * @param config - конфигурация
+ * @param numberOfThreads - количество потоков
  */
 MultithreadedIntegral::MultithreadedIntegral(unsigned numberOfThreads) noexcept
     : _numberOfThreads(numberOfThreads)
 {
 }
 
+/**
+ * @brief Вычисление интегральных матриц
+ * 
+ * @param partsOfIntegralImages - массив структур одноканальных интегральных матриц с номером канала и именем файла
+ * @param partsOfImages - массив структур одноканальных матриц с номером канала и именем файла
+ */
 void MultithreadedIntegral::calculate(std::vector<Image>& partsOfIntegralImages, const std::vector<Image>& partsOfImages)
 {
     unsigned countThreads = 0;

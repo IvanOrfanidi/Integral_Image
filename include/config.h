@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <set>
 #include <string>
 
@@ -23,10 +24,10 @@ struct Config {
 template <class StreamType>
 StreamType& operator<<(StreamType& stream, const Config& config)
 {
-    stream << "Number of threads: " << config.numberOfThreads << '\n';
-    stream << "Images:\n";
+    stream << "Number of threads: " << config.numberOfThreads << std::endl;
+    stream << "Images:" << std::endl;
     for (const auto& pathToImage : config.pathsToImages) {
-        stream << "  <" << pathToImage << ">\n";
+        stream << "  <" << pathToImage << ">" << std::endl;
     }
     return stream;
 }
