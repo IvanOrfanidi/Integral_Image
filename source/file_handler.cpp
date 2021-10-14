@@ -56,7 +56,7 @@ void FileHandler::dataRead(std::vector<Image>& partsOfImages) const
 void FileHandler::fillingInPartsOfImages(std::vector<Image>& partsOfImages, const MapImages& images) const
 {
     for (const auto& image : images) {
-        for (uint8_t channel = 0; channel < image.second.size(); ++channel) {
+        for (unsigned channel = 0; channel < image.second.size(); ++channel) {
             partsOfImages.push_back({ image.first, channel, image.second[channel] });
         }
     }
@@ -98,7 +98,7 @@ void FileHandler::dataWrite(const std::vector<Image>& partsOfIntegralImages) con
  */
 std::string FileHandler::getFileNameFromPath(const std::string& path) const
 {
-    std::string baseFilename = path.substr(path.find_last_of("/\\") + 1);
+    const std::string baseFilename = path.substr(path.find_last_of("/\\") + 1);
     std::string::size_type const pos(baseFilename.find_last_of('.'));
     std::string fileName = baseFilename.substr(0, pos);
     return fileName + EXTENSION.data();
@@ -114,7 +114,7 @@ void FileHandler::writeToFile(const std::string& nameFile, const std::map<unsign
 {
     std::ofstream file(nameFile);
     if (file.is_open()) {
-        for (auto& data : outputData) {
+        for (const auto& data : outputData) {
             const cv::Mat& matrix = data.second;
             if (matrix.empty()) {
                 file << std::endl;

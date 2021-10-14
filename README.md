@@ -1,10 +1,23 @@
-### Сборка.
-+ Программа собирается под Widows7/10 и Linux (Ubuntu 18/20)
+### Настройка среды
 
-#### Сборка через CMake.
++ Установить компилятор **GCC** или **LLVM** и установить систему сборки **CMake**
+согласно рекомендациям данной ОС и версии компилятора, для GCC не ниже 8.2 и CMake не ниже 3.16.
+
++ Чтобы программа собралась под Widows7/10 и Linux (Ubuntu 18/20) необходимо отдельно
+поставить библиотеки **boost** и **OpenCV** согласно рекомендациям данной ОС.
+Так для Windows хорошим решением будет платформа **MSYS2** (https://www.msys2.org/).
+Для Ubuntu все библиотеки можно поставить из менеджера **apt**.
+* `sudo apt-get install libboost-dev libboost-all-dev`
+* `sudo apt-get install libopencv-dev`
+
++ Альтернативный вариант установки библиотек из менеджера пакетов Conan.
+
+
+### Сборка.
 + Выполнить команду в папке со сборкой(build, out):
 * `cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release ..`
 * `cmake --build .`
+
 
 ### Сборка тестов с Google Test.
 
@@ -30,12 +43,9 @@ build_type=Release
 ```
 В профиле для conan нужно подправить компилятор `compiler=gcc`, его версию `compiler.version=8` и версию C++ `compiler.libcxx=libstdc++11`.
 
-  + Для последующих вызовов:
-* `conan install ../ -s build_type=Debug`
-
 #### Сборка тестов через CMake.
 + Выполнить команду в папке со сборкой(build, out):
-* `cmake cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DTEST=true ..`
+* `cmake cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DTESTS=true ..`
 * `cmake --build .`
 
 + Тесты будут лежать в папке `bin`.

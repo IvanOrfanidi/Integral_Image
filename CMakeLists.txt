@@ -2,16 +2,14 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Project
-project(integral_image
-    VERSION 1.0.0
-)
+project(integral_image VERSION 1.0.0)
 
 configure_file(
     project_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/project_version.h
 )
 
 # All tests
-if(TEST)
+if(TESTS)
     set(MAT_MATCHES_TEST ON)
     set(MAT_INTEGRAL_TEST ON)
 endif()
@@ -32,13 +30,6 @@ if((CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR (CMAKE_CXX_COMPILER_ID MATCHES "Clan
         -Wall
         -Wextra
         -Wpedantic
-        -Wcast-align
-        -Wcast-qual
-        -Wenum-compare
-        -Wfloat-equal
-        -Wnon-virtual-dtor
-        -Woverloaded-virtual
-        -Wredundant-decls
     )
 endif()
 
@@ -72,7 +63,7 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Executable project
-if(NOT TEST)
+if(NOT TESTS)
     add_executable(${PROJECT_NAME} ${SOURCES})
     target_link_libraries(${PROJECT_NAME}
         ${OpenCV_LIBS}

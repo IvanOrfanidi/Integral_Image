@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
         std::vector<Image> partsOfIntegralImages; ///< Массив структур одноканальных интегральных матриц с номером канала и именем файла
 
         // Получаем конфигурацию из парсера команд
-        Config config = commandParser.getConfig();
+        const Config config = commandParser.getConfig();
         DEB_INFO(config);
 
         FileHandler fileHandler(std::move(config.pathsToImages));

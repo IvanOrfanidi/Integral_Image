@@ -11,7 +11,7 @@ void calculateIntegralMatrix(cv::Mat& dstMatrix, const cv::Mat& srcMatrix)
     dstMatrix = cv::Mat::zeros(srcMatrix.size(), CV_32FC1);
     for (int row = 0; row < srcMatrix.rows; ++row) {
         for (int col = 0; col < srcMatrix.cols; ++col) {
-            if ((row == 0) && (col == 0)) {
+            if (row == 0 && col == 0) {
                 dstMatrix.at<float>(row, col) = srcMatrix.at<uint8_t>(row, col);
             } else if (row == 0 && col != 0) {
                 dstMatrix.at<float>(row, col) = srcMatrix.at<uint8_t>(row, col) + dstMatrix.at<float>(row, col - 1);

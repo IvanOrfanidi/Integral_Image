@@ -18,11 +18,13 @@ gcc:
     - cmake --build .
   artifacts:
     paths:
-      - build/bin/main_tests
+      - build/bin/mat_integral_test
+      - build/bin/mat_matches_test
 
 google-gcc:
   stage: test
   dependencies:
     - gcc
   script:
-    - ./build/bin/main_tests
+    - ./build/bin/mat_integral_test
+    - ./build/bin/mat_matches_test
