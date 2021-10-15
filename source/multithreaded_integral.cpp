@@ -37,7 +37,7 @@ void MultithreadedIntegral::calculate(std::vector<Image>& partsOfIntegralImages,
 /**
  * @brief Подготовка данных, заполнение массива одноканальный матриц
  * 
- * @param partsOfImagesForThreads выходной массив одноканальный матриц
+ * @param partsOfImagesForThreads - выходной массив одноканальный матриц
  * @param partsOfImages - входной массив структур одноканальных матриц с номером канала и именем файла
  */
 void MultithreadedIntegral::fillingPartsOfImagesForThreads(std::vector<std::vector<Image>>& partsOfImagesForThreads, const std::vector<Image>& partsOfImages) const
@@ -53,8 +53,8 @@ void MultithreadedIntegral::fillingPartsOfImagesForThreads(std::vector<std::vect
 /**
  * @brief Даем данные птокам и получаем выходной массив интегированных матриц
  * 
- * @param partsOfIntegralImagesFromThreads выходной массив интегированных одноканальный матриц
- * @param partsOfImagesForThreads входной массив одноканальный матриц
+ * @param partsOfIntegralImagesFromThreads - выходной массив интегированных одноканальный матриц
+ * @param partsOfImagesForThreads - входной массив одноканальный матриц
  */
 void MultithreadedIntegral::giveDataToTasks(std::vector<std::vector<Image>>& partsOfIntegralImagesFromThreads, const std::vector<std::vector<Image>>& partsOfImagesForThreads)
 {
@@ -97,7 +97,7 @@ void MultithreadedIntegral::fillingPartsOfIntegralImages(std::vector<Image>& par
  * @brief Вычисление массива интегральных структур изображений
  * 
  * @param integralMatrices - массив выходных интегральных структур изображений
- * @param imagesMatrices -  массив входных структур изображений
+ * @param imagesMatrices - массив входных структур изображений
  */
 void MultithreadedIntegral::calculateIntegralImage(std::vector<Image>& integralMatrices, const std::vector<Image>& imagesMatrices)
 {

@@ -4,6 +4,7 @@
 !*.cpp
 !*.h
 !*.hpp
+!*.sh
 !.gitignore
 !.clang-format
 !*.md

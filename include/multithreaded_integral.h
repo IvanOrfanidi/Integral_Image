@@ -31,7 +31,7 @@ private:
     /**
      * @brief Подготовка данных, заполнение массива одноканальный матриц
      * 
-     * @param partsOfImagesForThreads выходной массив одноканальный матриц
+     * @param partsOfImagesForThreads - выходной массив одноканальный матриц
      * @param partsOfImages - входной массив структур одноканальных матриц с номером канала и именем файла
      */
     void fillingPartsOfImagesForThreads(std::vector<std::vector<Image>>& partsOfImagesForThreads, const std::vector<Image>& partsOfImages) const;
@@ -39,8 +39,8 @@ private:
     /**
      * @brief Даем данные птокам и получаем выходной список интегированных матриц
      * 
-     * @param partsOfIntegralImagesFromThreads выходной список интегированных одноканальный матриц
-     * @param partsOfImagesForThreads входной список одноканальный матриц
+     * @param partsOfIntegralImagesFromThreads - выходной список интегированных одноканальный матриц
+     * @param partsOfImagesForThreads - входной список одноканальный матриц
      */
     void giveDataToTasks(std::vector<std::vector<Image>>& partsOfIntegralImagesFromThreads, const std::vector<std::vector<Image>>& partsOfImagesForThreads);
 
@@ -62,7 +62,7 @@ private:
      * @brief Вычисление массива интегральных структур изображений
      * 
      * @param integralMatrices - массив выходных интегральных структур изображений
-     * @param imagesMatrices -  массив входных структур изображений
+     * @param imagesMatrices - массив входных структур изображений
      */
     static void calculateIntegralImage(std::vector<Image>& integralMatrices, const std::vector<Image>& imagesMatrices);
 

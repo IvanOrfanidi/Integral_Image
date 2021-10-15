@@ -1,5 +1,8 @@
 ### Настройка среды
 
++ Если cборка для Ubuntu, то рекомендуется использовать сборку через Docker и настройка среды сводится к установке только Docker
+(https://docs.docker.com/engine/install/).
+
 + Установить компилятор **GCC** или **LLVM** и установить систему сборки **CMake**
 согласно рекомендациям данной ОС и версии компилятора, для GCC не ниже 8.2 и CMake не ниже 3.16.
 
@@ -12,14 +15,25 @@
 
 + Альтернативный вариант установки библиотек из менеджера пакетов Conan.
 
+### Сборка для Ubuntu через Docker(рекомендуемый способ).
++ Выполнить скрипт `install_from_docker.sh`.
+```sh
+docker build -t integral-image:latest .
+docker create -it --name dummy integral-image:latest
+rm -rf build && mkdir build && cd build/
+docker cp dummy:/Integral_Image/build/integral_image .
+docker cp dummy:/Integral_Image/build/bin .
+docker rm -f dummy
+```
++ Исполняемый файл и тесты будут лежать в папке `build`.
 
-### Сборка.
+### Сборка через CMake.
 + Выполнить команду в папке со сборкой(build, out):
 * `cmake -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release ..`
 * `cmake --build .`
 
 
-### Сборка тестов с Google Test.
+### Сборка тестов с Google Test через CMake.
 
 #### Установка менеджера пакетов Conan через pip.
 * `pip install conan`
