@@ -18,29 +18,29 @@ MultithreadedIntegral::MultithreadedIntegral(unsigned numberOfThreads) noexcept
 /**
  * @brief Вычисление интегральных матриц
  * 
- * @param partsOfIntegralImages - выходной массив структур одноканальных интегральных матриц с номером канала и именем файла
  * @param partsOfImages - входной массив структур одноканальных матриц с номером канала и именем файла
+ * @param partsOfIntegralImages - выходной массив структур одноканальных интегральных матриц с номером канала и именем файла
  */
-void MultithreadedIntegral::calculate(std::vector<Image>& partsOfIntegralImages, const std::vector<Image>& partsOfImages)
+void MultithreadedIntegral::calculate(const std::vector<Image>& partsOfImages, std::vector<Image>& partsOfIntegralImages)
 {
     std::vector<std::vector<Image>> partsOfImagesForThreads;
-    fillingPartsOfImagesForThreads(partsOfImagesForThreads, partsOfImages);
+    fillingPartsOfImagesForThreads(partsOfImages, partsOfImagesForThreads);
 
     std::vector<std::vector<Image>> partsOfIntegralImagesForThreads;
-    giveDataToTasks(partsOfIntegralImagesForThreads, partsOfImagesForThreads);
+    giveDataToTasks(partsOfImagesForThreads, partsOfIntegralImagesForThreads);
 
     waitingForEndOfThreads();
 
-    fillingPartsOfIntegralImages(partsOfIntegralImages, partsOfIntegralImagesForThreads);
+    fillingPartsOfIntegralImages(partsOfIntegralImagesForThreads, partsOfIntegralImages);
 }
 
 /**
  * @brief Подготовка данных, заполнение массива одноканальный матриц
  * 
- * @param partsOfImagesForThreads - выходной массив одноканальный матриц
  * @param partsOfImages - входной массив структур одноканальных матриц с номером канала и именем файла
+ * @param partsOfImagesForThreads - выходной массив одноканальный матриц
  */
-void MultithreadedIntegral::fillingPartsOfImagesForThreads(std::vector<std::vector<Image>>& partsOfImagesForThreads, const std::vector<Image>& partsOfImages) const
+void MultithreadedIntegral::fillingPartsOfImagesForThreads(const std::vector<Image>& partsOfImages, std::vector<std::vector<Image>>& partsOfImagesForThreads) const
 {
     partsOfImagesForThreads.resize(_numberOfThreads);
     unsigned countThreads = 0;
@@ -53,17 +53,17 @@ void MultithreadedIntegral::fillingPartsOfImagesForThreads(std::vector<std::vect
 /**
  * @brief Даем данные птокам и получаем выходной массив интегированных матриц
  * 
- * @param partsOfIntegralImagesFromThreads - выходной массив интегированных одноканальный матриц
  * @param partsOfImagesForThreads - входной массив одноканальный матриц
+ * @param partsOfIntegralImagesFromThreads - выходной массив интегированных одноканальный матриц
  */
-void MultithreadedIntegral::giveDataToTasks(std::vector<std::vector<Image>>& partsOfIntegralImagesFromThreads, const std::vector<std::vector<Image>>& partsOfImagesForThreads)
+void MultithreadedIntegral::giveDataToTasks(const std::vector<std::vector<Image>>& partsOfImagesForThreads, std::vector<std::vector<Image>>& partsOfIntegralImagesFromThreads)
 {
     partsOfIntegralImagesFromThreads.resize(_numberOfThreads);
     _threads.resize(_numberOfThreads);
     for (unsigned countThreads = 0; countThreads < _numberOfThreads; ++countThreads) {
         const auto& imagesMatrices = partsOfImagesForThreads[countThreads];
         auto& integralMatrices = partsOfIntegralImagesFromThreads[countThreads];
-        _threads[countThreads] = std::thread(calculateIntegralImage, std::ref(integralMatrices), std::ref(imagesMatrices));
+        _threads[countThreads] = std::thread(calculateIntegralImage, std::ref(imagesMatrices), std::ref(integralMatrices));
     }
 }
 
@@ -81,11 +81,11 @@ void MultithreadedIntegral::waitingForEndOfThreads()
 /**
  * @brief Выход данных, заполнение массива структур интегированных одноканальный матриц из массива интегированных одноканальный матриц
  * 
- * @param partsOfIntegralImages - выходной массив структур одноканальных интегральных матриц с номером канала и именем файла
  * @param partsOfIntegralImagesFromThreads - входной массив интегированных одноканальный матриц
+ * @param partsOfIntegralImages - выходной массив структур одноканальных интегральных матриц с номером канала и именем файла
  */
-void MultithreadedIntegral::fillingPartsOfIntegralImages(std::vector<Image>& partsOfIntegralImages,
-    const std::vector<std::vector<Image>>& partsOfIntegralImagesFromThreads) const
+void MultithreadedIntegral::fillingPartsOfIntegralImages(const std::vector<std::vector<Image>>& partsOfIntegralImagesFromThreads,
+    std::vector<Image>& partsOfIntegralImages) const
 {
     partsOfIntegralImages.reserve(partsOfIntegralImagesFromThreads.size());
     for (const auto& partOfIntegralImageForThreads : partsOfIntegralImagesFromThreads) {
@@ -96,10 +96,10 @@ void MultithreadedIntegral::fillingPartsOfIntegralImages(std::vector<Image>& par
 /**
  * @brief Вычисление массива интегральных структур изображений
  * 
- * @param integralMatrices - массив выходных интегральных структур изображений
  * @param imagesMatrices - массив входных структур изображений
+ * @param integralMatrices - массив выходных интегральных структур изображений
  */
-void MultithreadedIntegral::calculateIntegralImage(std::vector<Image>& integralMatrices, const std::vector<Image>& imagesMatrices)
+void MultithreadedIntegral::calculateIntegralImage(const std::vector<Image>& imagesMatrices, std::vector<Image>& integralMatrices)
 {
     for (const auto& partOfImage : imagesMatrices) {
         if (utils::isMatrixZeros(partOfImage.matrix)) {
@@ -108,7 +108,7 @@ void MultithreadedIntegral::calculateIntegralImage(std::vector<Image>& integralM
             integralMatrices.push_back({ partOfImage.name, partOfImage.channel, empty });
         } else {
             cv::Mat integralMatrix;
-            calculateIntegralMatrix(integralMatrix, partOfImage.matrix);
+            calculateIntegralMatrix(partOfImage.matrix, integralMatrix);
             integralMatrices.push_back({ partOfImage.name, partOfImage.channel, integralMatrix });
         }
     }

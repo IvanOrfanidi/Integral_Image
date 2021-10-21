@@ -32,10 +32,10 @@ private:
     /**
      * @brief Заполнение массив с структурами изображений
      * 
-     * @param partsOfImages - выходной массив с структурами изображений
      * @param images - входной map с файлами изображений
+     * @param partsOfImages - выходной массив с структурами изображений
      */
-    void fillingInPartsOfImages(std::vector<Image>& partsOfImages, const MapImages& threeChannelMatrices) const;
+    void fillingInPartsOfImages(const MapImages& threeChannelMatrices, std::vector<Image>& partsOfImages) const;
 
     /**
      * @brief Получение имени выходного файла из пути к нему

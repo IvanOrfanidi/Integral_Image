@@ -3,10 +3,10 @@
 /**
  * @brief Вычисление интегральной матрицы
  * 
- * @param dstMatrix - выходная интегральная матрица
  * @param srcMatrix - входная матрица
+ * @param dstMatrix - выходная интегральная матрица
  */
-void calculateIntegralMatrix(cv::Mat& dstMatrix, const cv::Mat& srcMatrix)
+void calculateIntegralMatrix(const cv::Mat& srcMatrix, cv::Mat& dstMatrix)
 {
     dstMatrix = cv::Mat::zeros(srcMatrix.size(), CV_32FC1);
     for (int row = 0; row < srcMatrix.rows; ++row) {

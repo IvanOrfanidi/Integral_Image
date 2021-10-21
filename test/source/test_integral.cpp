@@ -54,7 +54,7 @@ TEST(TestIntegral, Integral)
 
     for (const auto& testItem : testData) {
         // Act
-        calculateIntegralMatrix(resMatrix, testItem.testMatrix);
+        calculateIntegralMatrix(testItem.testMatrix, resMatrix);
 
         // Assert
         EXPECT_TRUE(utils::isMatMatches(resMatrix, testItem.expectedMatrix)) << "Test Matrix:" << std::endl

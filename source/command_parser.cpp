@@ -93,8 +93,8 @@ std::string CommandParser::getOutputMessage() const noexcept
  */
 void CommandParser::checkingNumberOfThreads(unsigned numberOfThreads) const
 {
-    const auto maxNumberOfThreads = std::thread::hardware_concurrency() - 1;
-    if (numberOfThreads > maxNumberOfThreads) {
+    const unsigned maxNumberOfThreads = std::thread::hardware_concurrency();
+    if (maxNumberOfThreads != 0 && numberOfThreads > maxNumberOfThreads - 1) {
         throw std::runtime_error("invalid option '--threads', maximum value is " + std::to_string(maxNumberOfThreads));
     }
 }
@@ -119,7 +119,8 @@ void CommandParser::checkingVectorPathToImage(const std::vector<std::string>& pa
  */
 void CommandParser::setConfig(unsigned numberOfThreads, const std::vector<std::string>& pathsToImages)
 {
-    _config.numberOfThreads = (numberOfThreads == 0) ? (std::thread::hardware_concurrency() - 1) : numberOfThreads;
+    const unsigned maxNumberOfThreads = (std::thread::hardware_concurrency() != 0) ? (std::thread::hardware_concurrency() - 1) : 1;
+    _config.numberOfThreads = (numberOfThreads == 0) ? maxNumberOfThreads : numberOfThreads;
     for (const auto& pathToImageItem : pathsToImages) {
         _config.pathsToImages.insert(pathToImageItem);
     }

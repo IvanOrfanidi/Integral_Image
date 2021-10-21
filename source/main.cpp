@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
         MultithreadedIntegral multithreadedIntegral(config.numberOfThreads);
         // Вычисляем данные(интегральные матрицы)
-        multithreadedIntegral.calculate(partsOfIntegralImages, partsOfImages);
+        multithreadedIntegral.calculate(partsOfImages, partsOfIntegralImages);
 
         // Пишем данные(интегральные матрицы) в файлы
         fileHandler.dataWrite(partsOfIntegralImages);

@@ -44,16 +44,16 @@ void FileHandler::dataRead(std::vector<Image>& partsOfImages) const
     }
     DEB_INFO(std::endl);
 
-    fillingInPartsOfImages(partsOfImages, inputData);
+    fillingInPartsOfImages(inputData, partsOfImages);
 }
 
 /**
  * @brief Заполнение массив с структурами изображений
  * 
- * @param partsOfImages - выходной массив с структурами изображений
  * @param images - входной map с файлами изображений
+ * @param partsOfImages - выходной массив с структурами изображений
  */
-void FileHandler::fillingInPartsOfImages(std::vector<Image>& partsOfImages, const MapImages& images) const
+void FileHandler::fillingInPartsOfImages(const MapImages& images, std::vector<Image>& partsOfImages) const
 {
     for (const auto& image : images) {
         for (unsigned channel = 0; channel < image.second.size(); ++channel) {

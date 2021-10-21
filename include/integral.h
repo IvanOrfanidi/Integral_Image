@@ -5,7 +5,7 @@
 /**
  * @brief Вычисление интегральной матрицы
  * 
- * @param dstMatrix - выходная интегральная матрица
  * @param srcMatrix - входная матрица
+ * @param dstMatrix - выходная интегральная матрица
  */
-void calculateIntegralMatrix(cv::Mat& dstMatrix, const cv::Mat& srcMatrix);
+void calculateIntegralMatrix(const cv::Mat& srcMatrix, cv::Mat& dstMatrix);
